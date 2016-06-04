@@ -1,0 +1,11 @@
+heart ♥
+reroll ⟳
+freeze ❄
+disabled ⊘
+forfeit ✕
+accept ✓
+continue ➔
+back ←
+forward →
+star ★
+triangle ▶
