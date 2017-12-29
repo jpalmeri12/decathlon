@@ -389,7 +389,7 @@ function initMenu() {
     loadProfileJSON();
     // Prepare records
     prepRecords();
-    prepPlayerStats(profiles[0]);
+    //prepPlayerStats(profiles[0]);
     playerProfiles = [null, null, null, null];
     panelColors = [-1, -1, -1, -1];
     menuMode = ["", 0];
