@@ -1,0 +1,20 @@
+Player Records Screen
+
+Screen 1: Summary
+- Best score in all 10 events, with rank
+- Sum of High Scores
+- Best Run
+- Star Count
+- Total Rating
+
+Screen 2: Stars
+- Achievement grid
+- Star total: (score stars) + (achievement stars) = (total stars)
+
+Screen 3: Stats
+- Games played
+- Games won
+- Players defeated
+- Points earned
+- Dice rolled
+- Dice affinities

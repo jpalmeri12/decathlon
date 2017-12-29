@@ -1,0 +1,74 @@
+Roll the first set of four dice until you are satisfied.
+Repeat for the second set of four dice.
+You have a total of five rerolls for both sets.
+
+[Scoring] Total value of the dice, sixes count negative.
+===
+[Run-up] Roll all five dice, then freeze at least one.
+After each reroll, you must freeze a die.
+If the frozen dice total 9 or more, you fail the attempt.
+
+[Jump] Roll all your frozen dice and freeze at least one.
+Repeat with the remaining dice until all are frozen.
+
+[Scoring] The sum of the frozen dice in your best jump.
+(You have three attempts.)
+===
+Roll one die at a time until you decide to stop.
+If you roll a 1, your attempt is invalid.
+
+[Scoring] The total value of the dice in your best attempt.
+(You have three attempts.)
+===
+The jump height starts at 10 and goes up by 2 each round.
+Each player decides whether to attempt the jump.
+If you do so, you have three jumps in which to clear it.
+To jump, roll five dice. If the sum of the dice equals or exceeds the current height, you clear the jump.
+If you fail three times at the same height, you must stop.
+
+[Scoring] The maximum height that you cleared.
+===
+Roll the first set of two dice until you are satisfied.
+Repeat for the remaining three sets of two dice.
+You have a total of five rerolls for all four sets.
+
+[Scoring] Total value of the dice, sixes count negative.
+===
+Roll all five dice until you are satisfied.
+You have a total of five rerolls.
+
+[Scoring] Total value of the dice.
+===
+Roll all five dice and freeze at least one.
+If you wish, reroll the remaining dice and freeze at least one.
+Repeat this process until you wish to stop.
+
+Only dice with even values may be frozen.
+If you cannot freeze a die after rerolling, the attempt fails.
+
+[Scoring] The sum of the frozen dice in your best attempt.
+(You have three attempts.)
+===
+The jump height starts at 10 and goes up by 2 each round.
+Each player decides whether to attempt the jump.
+If you do so, you have three jumps in which to clear it.
+To jump, roll 2-8 dice. If the sum of the dice equals or exceeds the current height, and if none of the dice have a value of 1, you clear the jump.
+If you fail three times at the same height, you must stop.
+
+[Scoring] The maximum height that you cleared.
+===
+Roll all five dice and freeze at least one.
+If you wish, reroll the remaining dice and freeze at least one.
+Repeat this process until you wish to stop.
+
+Only dice with odd values may be frozen.
+If you cannot freeze a die after rerolling, the attempt fails.
+
+[Scoring] The sum of the frozen dice in your best attempt.
+(You have three attempts.)
+===
+Roll the first die until you are satisfied.
+Repeat for the other seven dice.
+You have a total of five rerolls for all eight dice.
+
+[Scoring] Total value of the dice, sixes count negative.

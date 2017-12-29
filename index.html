@@ -5,332 +5,176 @@
     <title>Decathlon</title>
     <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="jquery-2.1.4.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/resize.js"></script>
 </head>
 
 <body>
     <div id="bigCover"></div>
-    <div id="stageCover">
-        <div id="coverTop" class="cover"></div>
-        <div id="coverBottom" class="cover"></div>
-        <div id="coverLeft" class="cover"></div>
-        <div id="coverRight" class="cover"></div>
-    </div>
     <div id="gameScreen" class="screen noselect">
-        <div id="ui_score0" class="ui_score noselect">
-            <div id="ui_score_name0" class="ui_score_name font fs-50 color_p0"></div>
-            <div id="ui_score_roundScore0" class="ui_score_roundScore font fs-40 color_p0"></div>
-            <div id="ui_score_totalScore0" class="ui_score_totalScore font fs-70 color_p0"></div>
-            <div id="ui_score_newHighScore0" class="ui_score_newHighScore color_p0">
-                <div id="ui_score_darkBox0" class="ui_score_darkBox ui_score_darkBox_fade_anim"></div>
-                <div id="ui_score_newHighScore_title0" class="ui_score_newHighScore_title font fs-36">New Personal Best!</div>
-                <div id="ui_score_newHighScore_oldScore0" class="ui_score_newHighScore_oldScore font fs-90"></div>
-                <div id="ui_score_newHighScore_newScore0" class="ui_score_newHighScore_newScore font fs-90"></div>
-                <div id="ui_score_newHighScore_oldRank0" class="ui_score_newHighScore_oldRank font fs-40"></div>
-                <div id="ui_score_newHighScore_newRank0" class="ui_score_newHighScore_newRank font fs-40"></div>
-                <div id="ui_score_newHighScore_triangle0" class="ui_score_newHighScore_triangle font fs-40">▶</div>
-            </div>
-        </div>
-        <div id="ui_score1" class="ui_score noselect">
-            <div id="ui_score_name1" class="ui_score_name font fs-50 color_p1"></div>
-            <div id="ui_score_roundScore1" class="ui_score_roundScore font fs-40 color_p1"></div>
-            <div id="ui_score_totalScore1" class="ui_score_totalScore font fs-70 color_p1"></div>
-            <div id="ui_score_newHighScore1" class="ui_score_newHighScore color_p1">
-                <div id="ui_score_darkBox1" class="ui_score_darkBox ui_score_darkBox_fade_anim"></div>
-                <div id="ui_score_newHighScore_title1" class="ui_score_newHighScore_title font fs-36">New Personal Best!</div>
-                <div id="ui_score_newHighScore_oldScore1" class="ui_score_newHighScore_oldScore font fs-90"></div>
-                <div id="ui_score_newHighScore_newScore1" class="ui_score_newHighScore_newScore font fs-90"></div>
-                <div id="ui_score_newHighScore_oldRank1" class="ui_score_newHighScore_oldRank font fs-40"></div>
-                <div id="ui_score_newHighScore_newRank1" class="ui_score_newHighScore_newRank font fs-40"></div>
-                <div id="ui_score_newHighScore_triangle1" class="ui_score_newHighScore_triangle font fs-40">▶</div>
-            </div>
-        </div>
-        <div id="ui_score2" class="ui_score noselect">
-            <div id="ui_score_name2" class="ui_score_name font fs-50 color_p2"></div>
-            <div id="ui_score_roundScore2" class="ui_score_roundScore font fs-40 color_p2"></div>
-            <div id="ui_score_totalScore2" class="ui_score_totalScore font fs-70 color_p2"></div>
-            <div id="ui_score_newHighScore2" class="ui_score_newHighScore color_p2">
-                <div id="ui_score_darkBox2" class="ui_score_darkBox ui_score_darkBox_fade_anim"></div>
-                <div id="ui_score_newHighScore_title2" class="ui_score_newHighScore_title font fs-36">New Personal Best!</div>
-                <div id="ui_score_newHighScore_oldScore2" class="ui_score_newHighScore_oldScore font fs-90"></div>
-                <div id="ui_score_newHighScore_newScore2" class="ui_score_newHighScore_newScore font fs-90"></div>
-                <div id="ui_score_newHighScore_oldRank2" class="ui_score_newHighScore_oldRank font fs-40"></div>
-                <div id="ui_score_newHighScore_newRank2" class="ui_score_newHighScore_newRank font fs-40"></div>
-                <div id="ui_score_newHighScore_triangle2" class="ui_score_newHighScore_triangle font fs-40">▶</div>
-            </div>
-        </div>
-        <div id="ui_score3" class="ui_score noselect">
-            <div id="ui_score_name3" class="ui_score_name font fs-50 color_p3"></div>
-            <div id="ui_score_roundScore3" class="ui_score_roundScore font fs-40 color_p3"></div>
-            <div id="ui_score_totalScore3" class="ui_score_totalScore font fs-70 color_p3"></div>
-            <div id="ui_score_newHighScore3" class="ui_score_newHighScore color_p3">
-                <div id="ui_score_darkBox3" class="ui_score_darkBox ui_score_darkBox_fade_anim"></div>
-                <div id="ui_score_newHighScore_title3" class="ui_score_newHighScore_title font fs-36">New Personal Best!</div>
-                <div id="ui_score_newHighScore_oldScore3" class="ui_score_newHighScore_oldScore font fs-90"></div>
-                <div id="ui_score_newHighScore_newScore3" class="ui_score_newHighScore_newScore font fs-90"></div>
-                <div id="ui_score_newHighScore_oldRank3" class="ui_score_newHighScore_oldRank font fs-40"></div>
-                <div id="ui_score_newHighScore_newRank3" class="ui_score_newHighScore_newRank font fs-40"></div>
-                <div id="ui_score_newHighScore_triangle3" class="ui_score_newHighScore_triangle font fs-40">▶</div>
-            </div>
-        </div>
+        <div id="ui_scores"></div>
         <div id="ui_round_bar">
-            <div id="ui_round_bar_top" class="stripe_anim stripes">
-                <div class="ui_round_bar_section" id="ui_round_bar_section0">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle0" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section1">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle1" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section2">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle2" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section3">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle3" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section4">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle4" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section5">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle5" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section6">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle6" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section7">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle7" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section8">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle8" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-                <div class="ui_round_bar_section" id="ui_round_bar_section9">
-                    <div class="ui_round_bar_box">
-                        <div id="ui_round_bar_circle9" class="ui_round_bar_circle"></div>
-                    </div>
-                </div>
-            </div>
-            <div id="ui_round_bar_tab" class="stripe_anim_reverse stripes font fs-40">
-                <div id="ui_round_bar_tab_text"></div>
+            <div id="ui_round_bar_top" class="stripe_anim stripes"></div>
+            <div id="ui_round_bar_tab" class="stripe_anim_reverse stripes">
+                <div id="ui_round_bar_tab_text" class="font textC"></div>
             </div>
         </div>
-        <div id="gamearea">
-            <div id="gamearea_info">
-                <div id="gamearea_info_left" class="gamearea_info_text font fs-60"></div>
-                <div id="gamearea_info_right" class="gamearea_info_text font fs-60"></div>
-            </div>
-            <div id="gamearea_dice" class="color_light">
-                <div id="gamearea_message" class="font fs-125"></div>
-                <div id="gamearea_dice_box0" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die0" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze0" class="gamearea_dice_box_freeze font fs-60">❄</div>
+        <div id="gamebody">
+            <div id="gamearea">
+                <div id="gamearea_info">
+                    <div id="gamearea_info_left" class="gamearea_info_text font"></div>
+                    <div id="gamearea_info_right" class="gamearea_info_text font"></div>
                 </div>
-                <div id="gamearea_dice_box1" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die1" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze1" class="gamearea_dice_box_freeze font fs-60">❄</div>
+                <div id="gamearea_dice" class="color_light">
+                    <div id="gamearea_message" class="font"></div>
+                    <div id="gamearea_dice_boxes"></div>
                 </div>
-                <div id="gamearea_dice_box2" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die2" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze2" class="gamearea_dice_box_freeze font fs-60">❄</div>
-                </div>
-                <div id="gamearea_dice_box3" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die3" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze3" class="gamearea_dice_box_freeze font fs-60">❄</div>
-                </div>
-                <div id="gamearea_dice_box4" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die4" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze4" class="gamearea_dice_box_freeze font fs-60">❄</div>
-                </div>
-                <div id="gamearea_dice_box5" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die5" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze5" class="gamearea_dice_box_freeze font fs-60">❄</div>
-                </div>
-                <div id="gamearea_dice_box6" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die6" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze6" class="gamearea_dice_box_freeze font fs-60">❄</div>
-                </div>
-                <div id="gamearea_dice_box7" class="gamearea_dice_box">
-                    <div id="gamearea_dice_box_die7" class="gamearea_dice_box_die"></div>
-                    <div id="gamearea_dice_box_freeze7" class="gamearea_dice_box_freeze font fs-60">❄</div>
-                </div>
-            </div>
-            <div id="gamearea_buttons" class="color_dark">
-                <div id="gamearea_buttons_left" class="gamearea_button color_light">
-                    <div id="gamearea_buttons_left_text" class="gamearea_button_text font fs-50"></div>
-                    <div id="gamearea_buttons_left_invalid" class="gamearea_button_invalid">
-                        <div id="gamearea_buttons_left_invalid_text" class="gamearea_button_invalid_text font fs-175">⊘</div>
+                <div id="gamearea_buttons" class="color_dark">
+                    <div id="gamearea_buttons_left" class="gamearea_button color_light">
+                        <div id="gamearea_buttons_left_text" class="gamearea_button_text font textC"></div>
+                        <div id="gamearea_buttons_left_invalid" class="gamearea_button_invalid">
+                            <div id="gamearea_buttons_left_invalid_text" class="gamearea_button_invalid_text font">⊘</div>
+                        </div>
                     </div>
-                </div>
-                <div id="gamearea_buttons_right" class="gamearea_button color_light">
-                    <div id="gamearea_buttons_right_text" class="gamearea_button_text font fs-50"></div>
-                    <div id="gamearea_buttons_right_invalid" class="gamearea_button_invalid">
-                        <div id="gamearea_buttons_right_invalid_text" class="gamearea_button_invalid_text font fs-175">⊘</div>
+                    <div id="gamearea_buttons_right" class="gamearea_button color_light">
+                        <div id="gamearea_buttons_right_text" class="gamearea_button_text font textC"></div>
+                        <div id="gamearea_buttons_right_invalid" class="gamearea_button_invalid">
+                            <div id="gamearea_buttons_right_invalid_text" class="gamearea_button_invalid_text font">⊘</div>
+                        </div>
                     </div>
+                    <div id="gamearea_buttons_display" class="font textC"></div>
+                    <div id="gamearea_buttons_display_freeze" class="font textC"></div>
                 </div>
-                <div id="gamearea_buttons_display" class="font fs-175"></div>
-                <div id="gamearea_buttons_display_freeze" class="font fs-100"></div>
+                <div id="gamearea_dice_bg"></div>
+                <div id="gamearea_freeze_message" class="font"></div>
+                <div id="gamearea_dice_buttons">
+                    <div id="gamearea_dice_buttons_text" class="font">Dice</div>
+                    <div id="gamearea_dice_buttons_left" class="gamearea_dice_button font color_dark">-</div>
+                    <div id="gamearea_dice_buttons_right" class="gamearea_dice_button font color_dark">+</div>
+                </div>
             </div>
-            <div id="gamearea_dice_bg"></div>
-            <div id="gamearea_freeze_message" class="font fs-40"></div>
-            <div id="gamearea_dice_buttons">
-                <div id="gamearea_dice_buttons_text" class="font fs-40">Dice</div>
-                <div id="gamearea_dice_buttons_left" class="gamearea_dice_button font fs-50 color_dark">-</div>
-                <div id="gamearea_dice_buttons_right" class="gamearea_dice_button font fs-50 color_dark">+</div>
+            <div id="gamerecordsbutton">
+                <div class="buttonhalf_left">
+                    <div class="buttonhalf_text font">Return</div>
+                    <div class="buttonhalf_symbol font">→</div>
+                </div>
+                <div class="buttonhalf_right">
+                    <div class="buttonhalf_text font">Records</div>
+                    <div class="buttonhalf_symbol font">←</div>
+                </div>
+            </div>
+            <div id="gamehelpbutton">
+                <div class="buttonhalf_left">
+                    <div class="buttonhalf_text font">Rules</div>
+                    <div class="buttonhalf_symbol font">→</div>
+                </div>
+                <div class="buttonhalf_right">
+                    <div class="buttonhalf_text font">Return</div>
+                    <div class="buttonhalf_symbol font">←</div>
+                </div>
+            </div>
+            <div id="gamerecords">
+                <div id="gamerecords_header">
+                    <div id="gamerecords_header_text" class="font textC">Event Records</div>
+                </div>
+                <div id="gamerecords_body"></div>
+                <div id="gamerecords_boxes"></div>
+                <div id="gamerecords_pbs"></div>
+            </div>
+            <div id="gamehelp">
+                <div id="gamehelp_header">
+                    <div id="gamehelp_header_text" class="font textC">Event Rules</div>
+                </div>
+                <div id="gamehelp_body">
+                    <div id="gamehelp_body_text" class="font textC"></div>
+                </div>
             </div>
         </div>
     </div>
     <div id="titleScreen" class="screen noselect">
         <div id="players">
-            <div id="player_info">
-                <div id="select_player_panel0" class="select_player_panel">
-                    <div id="select_player_name0" class="select_player_name">
-                        <div id="select_player_name_text0" class="select_player_name_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_rank0" class="select_player_rank">
-                        <div id="select_player_rank_text0" class="select_player_rank_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_overlay0" class="select_player_overlay">
-                        <div id="select_player_topbar0" class="select_player_topbar"></div>
-                        <div id="select_player_bottombar0" class="select_player_bottombar"></div>
-                        <div id="select_player_box0" class="select_player_box rounded">
-                            <div id="select_player_box_text0" class="select_player_box_text font fs-50"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="select_player_panel1" class="select_player_panel">
-                    <div id="select_player_name1" class="select_player_name">
-                        <div id="select_player_name_text1" class="select_player_name_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_rank1" class="select_player_rank">
-                        <div id="select_player_rank_text1" class="select_player_rank_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_overlay1" class="select_player_overlay">
-                        <div id="select_player_topbar1" class="select_player_topbar"></div>
-                        <div id="select_player_bottombar1" class="select_player_bottombar"></div>
-                        <div id="select_player_box1" class="select_player_box rounded">
-                            <div id="select_player_box_text1" class="select_player_box_text font fs-50"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="select_player_panel2" class="select_player_panel">
-                    <div id="select_player_name2" class="select_player_name">
-                        <div id="select_player_name_text2" class="select_player_name_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_rank2" class="select_player_rank">
-                        <div id="select_player_rank_text2" class="select_player_rank_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_overlay2" class="select_player_overlay">
-                        <div id="select_player_topbar2" class="select_player_topbar"></div>
-                        <div id="select_player_bottombar2" class="select_player_bottombar"></div>
-                        <div id="select_player_box2" class="select_player_box rounded">
-                            <div id="select_player_box_text2" class="select_player_box_text font fs-50"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="select_player_panel3" class="select_player_panel">
-                    <div id="select_player_name3" class="select_player_name">
-                        <div id="select_player_name_text3" class="select_player_name_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_rank3" class="select_player_rank">
-                        <div id="select_player_rank_text3" class="select_player_rank_text font fs-70"></div>
-                    </div>
-                    <div id="select_player_overlay3" class="select_player_overlay">
-                        <div id="select_player_topbar3" class="select_player_topbar"></div>
-                        <div id="select_player_bottombar3" class="select_player_bottombar"></div>
-                        <div id="select_player_box3" class="select_player_box rounded">
-                            <div id="select_player_box_text3" class="select_player_box_text font fs-50"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="player_info"></div>
             <div id="player_list">
-                <div id="player_list_title" class="font fs-60">Select Profile</div>
-                <div id="player_list_panel0" class="player_list_panel">
-                    <div id="player_list_text0" class="player_list_text font fs-40"></div>
-                </div>
-                <div id="player_list_panel1" class="player_list_panel">
-                    <div id="player_list_text1" class="player_list_text font fs-40"></div>
-                </div>
-                <div id="player_list_panel2" class="player_list_panel">
-                    <div id="player_list_text2" class="player_list_text font fs-40"></div>
-                </div>
-                <div id="player_list_panel3" class="player_list_panel">
-                    <div id="player_list_text3" class="player_list_text font fs-40"></div>
-                </div>
-                <div id="player_list_panel4" class="player_list_panel">
-                    <div id="player_list_text4" class="player_list_text font fs-40"></div>
-                </div>
-                <div id="player_list_pagenum" class="font fs-50"></div>
+                <div id="player_list_title" class="font">Select Profile</div>
+                <div id="player_list_panels"></div>
+                <div id="player_list_pagenum" class="font"></div>
                 <div id="player_list_left" class="player_list_button">
-                    <div id="player_list_left_text" class="player_list_button_text font fs-60">←</div>
+                    <div id="player_list_left_text" class="player_list_button_text font textC">←</div>
                 </div>
                 <div id="player_list_right" class="player_list_button">
-                    <div id="player_list_right_text" class="player_list_button_text font fs-60">→</div>
+                    <div id="player_list_right_text" class="player_list_button_text font textC">→</div>
                 </div>
             </div>
             <div id="new_profile">
-                <div id="new_profile_title" class="font fs-60">Add Profile</div>
-                <div id="new_profile_subtext" class="font fs-30">Enter a name.</div>
-                <input id="new_profile_field" maxlength="10" class="font fs-65">
+                <div id="new_profile_title" class="font">Add Profile</div>
+                <div id="new_profile_subtext" class="font">Enter a name.</div>
+                <input id="new_profile_field" maxlength="10" class="font">
                 <div id="new_profile_back" class="new_profile_button">
-                    <div id="new_profile_back_text" class="new_profile_button_text font fs-60">✕</div>
+                    <div id="new_profile_back_text" class="new_profile_button_text font textC">✕</div>
                 </div>
                 <div id="new_profile_accept" class="new_profile_button">
-                    <div id="new_profile_accept_text" class="new_profile_button_text font fs-60">✓</div>
+                    <div id="new_profile_accept_text" class="new_profile_button_text font textC">✓</div>
                 </div>
             </div>
         </div>
-        <div id="start_button" class="rounded">
-            <div id="start_button_text" class="font fs-80">Start!</div>
+        <div id="start_button">
+            <div id="start_button_text" class="font textC">Start!</div>
         </div>
     </div>
     <div id="resultsScreen" class="screen noselect">
-        <div id="results_title" class="font_dark fs-120">Results</div>
-        <div id="results_panels">
-            <div id="results_panel0" class="results_panel panel0 color_p0"></div>
-            <div id="results_panel_text0" class="results_panel_text panel0">
-                <div id="results_panel_title0" class="results_panel_title font fs-60"></div>
-                <div id="results_panel_name0" class="results_panel_name font fs-50">Name</div>
-                <div id="results_panel_score0" class="results_panel_score font fs-150">285</div>
-            </div>
-            <div id="results_panel1" class="results_panel panel1 color_p1"></div>
-            <div id="results_panel_text1" class="results_panel_text panel1">
-                <div id="results_panel_title1" class="results_panel_title font fs-60"></div>
-                <div id="results_panel_name1" class="results_panel_name font fs-50">Name</div>
-                <div id="results_panel_score1" class="results_panel_score font fs-150">285</div>
-            </div>
-            <div id="results_panel2" class="results_panel panel2 color_p2"></div>
-            <div id="results_panel_text2" class="results_panel_text panel2">
-                <div id="results_panel_title2" class="results_panel_title font fs-60"></div>
-                <div id="results_panel_name2" class="results_panel_name font fs-50">Name</div>
-                <div id="results_panel_score2" class="results_panel_score font fs-150">285</div>
-            </div>
-            <div id="results_panel3" class="results_panel panel3 color_p3"></div>
-            <div id="results_panel_text3" class="results_panel_text panel3">
-                <div id="results_panel_title3" class="results_panel_title font fs-60"></div>
-                <div id="results_panel_name3" class="results_panel_name font fs-50">Name</div>
-                <div id="results_panel_score3" class="results_panel_score font fs-150">285</div>
-            </div>
-        </div>
+        <div id="results_title" class="font_dark">Results</div>
+        <div id="results_panels"></div>
         <div id="results_continue">
-            <div id="results_continue_text" class="font fs-60">Continue</div>
+            <div id="results_continue_text" class="font textC">Continue</div>
+        </div>
+    </div>
+    <div id="records" class="screen noselect">
+        <div id="records_main_title" class="font fs-100">Records</div>
+        <div id="records_events"></div>
+    </div>
+    <div id="playerstats" class="screen noselect">
+        <div id="playerstats_main_title" class="font fs-100">Jim's Records</div>
+        <div id="playerstats_button_scores" class="playerstats_button">
+            <div id="playerstats_button_scores_text" class="playerstats_button_text font fs-50">Scores</div>
+        </div>
+        <div id="playerstats_button_stars" class="playerstats_button">
+            <div id="playerstats_button_stars_text" class="playerstats_button_text font fs-50">Stars</div>
+        </div>
+        <div id="playerstats_button_stats" class="playerstats_button">
+            <div id="playerstats_button_stats_text" class="playerstats_button_text font fs-50">Stats</div>
+        </div>
+        <div id="playerstats_box">
+            <div id="playerstats_scores" class="playerstats_screen">
+                <div id="playerstats_scores_events"></div>
+                <div id="playerstats_scores_scoresum" class="playerstats_scores_section">
+                    <div id="playerstats_scores_scoresum_title" class="playerstats_scores_title font fs-40">Event Total</div>
+                    <div id="playerstats_scores_scoresum_scorebox" class="playerstats_scores_scorebox">
+                        <div id="playerstats_scores_scoresum_score" class="playerstats_scores_score font fs-90"></div>
+                    </div>
+                </div>
+                <div id="playerstats_scores_bestrun" class="playerstats_scores_section">
+                    <div id="playerstats_scores_bestrun_title" class="playerstats_scores_title font fs-40">Best Run</div>
+                    <div id="playerstats_scores_bestrun_scorebox" class="playerstats_scores_scorebox">
+                        <div id="playerstats_scores_bestrun_score" class="playerstats_scores_score font fs-90"></div>
+                    </div>
+                </div>
+                <div id="playerstats_scores_starcount" class="playerstats_scores_section">
+                    <div id="playerstats_scores_starcount_title" class="playerstats_scores_title font fs-40">Star Count</div>
+                    <div id="playerstats_scores_starcount_scorebox" class="playerstats_scores_scorebox">
+                        <div id="playerstats_scores_starcount_score" class="playerstats_scores_score font fs-90"></div>
+                    </div>
+                </div>
+                <div id="playerstats_scores_rating" class="playerstats_scores_section">
+                    <div id="playerstats_scores_rating_title" class="playerstats_scores_title font fs-40">Rating</div>
+                    <div id="playerstats_scores_rating_scorebox" class="playerstats_scores_scorebox">
+                        <div id="playerstats_scores_rating_score" class="playerstats_scores_score font fs-90"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="playerstats_stars" class="playerstats_screen">
+                <div id="playerstats_stars_challenges"></div>
+            </div>
         </div>
     </div>
 </body>

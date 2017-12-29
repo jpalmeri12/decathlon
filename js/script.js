@@ -6,7 +6,10 @@ var eventRankData = [[26, 29, 31, 33, 35, 36, 37], [8, 14, 20, 25, 27, 28, 29], 
 
 // Global stuff
 var profiles = [];
-
+var highScores = [];
+var bestRuns = [];
+var mostStars = [];
+var highestRatings = [];
 
 // Menu Variables
 var panelColors = [];
@@ -22,7 +25,8 @@ var turn = 0;
 var setNumber = 0;
 var sets = 0;
 var events = [];
-var eventNames = ["100 Meters", "Long Jump", "Shot Put", "High Jump", "400 Meters", "110 Meter Hurdles", "Discus", "Pole Vault", "Javelin", "1500 Meters"];
+var eventNames = ["100 Meters", "Long Jump", "Shot Put", "High Jump", "400 Meters", "110m Hurdles", "Discus", "Pole Vault", "Javelin", "1500 Meters"];
+var eventRules = [];
 var eventID = 0;
 var dice = [];
 var diceSum = 0;
@@ -47,15 +51,21 @@ var toBlockRight = false;
 var buttonStatus = false;
 var soloGame = false;
 var uiColor = -1;
+var gameBodyScreen = 1;
 
 // All clicky stuff goes here
 $(function () {
-    //initDivs();
+    makeDivs();
     resizeWindow();
     $(window).resize(function () {
         resizeWindow();
     });
-
+    $.ajax("files/rules.txt").done(function (data) {
+        eventRules = data.split("\n===\n");
+        for (var i = 0; i < eventRules.length; i++) {
+            eventRules[i] = eventRules[i].replace(/\n/g, "<br>");
+        }
+    });
     window.setInterval(function () {
         tick();
     }, 50);
@@ -78,34 +88,13 @@ $(function () {
     });
     // Menu
     // Player panels
-    $("#select_player_panel0").click(function () {
-        playerPanelClicked(0);
-    });
-    $("#select_player_panel1").click(function () {
-        playerPanelClicked(1);
-    });
-    $("#select_player_panel2").click(function () {
-        playerPanelClicked(2);
-    });
-    $("#select_player_panel3").click(function () {
-        playerPanelClicked(3);
-    });
+    for (var i = 0; i < 4; i++) {
+        initPlayerPanelClicked(i);
+    }
     // Profile panels
-    $("#player_list_panel0").click(function () {
-        profilePanelClicked(0);
-    });
-    $("#player_list_panel1").click(function () {
-        profilePanelClicked(1);
-    });
-    $("#player_list_panel2").click(function () {
-        profilePanelClicked(2);
-    });
-    $("#player_list_panel3").click(function () {
-        profilePanelClicked(3);
-    });
-    $("#player_list_panel4").click(function () {
-        profilePanelClicked(4);
-    });
+    for (var i = 0; i < 5; i++) {
+        initProfilePanelClicked(i);
+    }
     $("#player_list_left").click(function () {
         changeProfilePage(-1);
     });
@@ -166,35 +155,29 @@ $(function () {
         }
     });
     // Clicks
-    $("#gamearea_dice_box_freeze0").click(function () {
-        freezeClicked(0);
-    });
-    $("#gamearea_dice_box_freeze1").click(function () {
-        freezeClicked(1);
-    });
-    $("#gamearea_dice_box_freeze2").click(function () {
-        freezeClicked(2);
-    });
-    $("#gamearea_dice_box_freeze3").click(function () {
-        freezeClicked(3);
-    });
-    $("#gamearea_dice_box_freeze4").click(function () {
-        freezeClicked(4);
-    });
-    $("#gamearea_dice_box_freeze5").click(function () {
-        freezeClicked(5);
-    });
-    $("#gamearea_dice_box_freeze6").click(function () {
-        freezeClicked(6);
-    });
-    $("#gamearea_dice_box_freeze7").click(function () {
-        freezeClicked(7);
-    });
+    for (var i = 0; i < 8; i++) {
+        initFreezeClicked(i);
+    }
     $("#gamearea_dice_buttons_left").click(function () {
         minusOneDie();
     });
     $("#gamearea_dice_buttons_right").click(function () {
         plusOneDie();
+    });
+    // Game screen
+    $("#gamerecordsbutton").click(function () {
+        if (gameBodyScreen == 0) {
+            setGameBodyScreen(1, true);
+        } else {
+            setGameBodyScreen(0, true);
+        }
+    });
+    $("#gamehelpbutton").click(function () {
+        if (gameBodyScreen == 2) {
+            setGameBodyScreen(1, true);
+        } else {
+            setGameBodyScreen(2, true);
+        }
     });
     // Results screen
     $("#results_continue").click(function () {
@@ -208,17 +191,187 @@ $(function () {
             'opacity': 0
         });
     });
+    initRecords();
     initMenu();
+    resizeWindow();
 });
 
-function initDivs() {
+function initPlayerPanelClicked(n) {
+    $("#select_player_panel" + n).click(function () {
+        playerPanelClicked(n);
+    });
+}
+
+function initProfilePanelClicked(n) {
+    $("#player_list_panel" + n).click(function () {
+        profilePanelClicked(n);
+    });
+}
+
+function initFreezeClicked(n) {
+    $("#gamearea_dice_box_freeze" + n).click(function () {
+        freezeClicked(n);
+    });
+}
+
+function makeDivs() {
+    // Title screen: player select panels
+    $("#player_info").empty();
     for (var i = 0; i < 4; i++) {
-        // Results panels
-        $("#results_panels").append("<div id='results_panel" + i + "' class='results_panel panel" + i + "'></div>");
-        $("#results_panel" + i).append("<div id='results_panel_text" + i + "' class='results_panel_text panel" + i + "'>");
-        $("#results_panel_text" + i).append("<div id='results_panel_title" + i + "' class='results_panel_title font fs-50'></div>");
-        $("#results_panel_text" + i).append("<div id='results_panel_name" + i + "' class='results_panel_name font fs-50'>Name</div>");
-        $("#results_panel_text" + i).append("<div id='results_panel_score" + i + "' class='results_panel_score font fs-50'>285</div>");
+        var divPanel = $('<div id="select_player_panel' + i + '" class="select_player_panel"></div>');
+        var divName = $('<div id="select_player_name' + i + '" class="select_player_name"></div>');
+        divName.append('<div id="select_player_name_text' + i + '" class="select_player_name_text font textC"></div>');
+        divPanel.append(divName);
+        var divRank = $('<div id="select_player_rank' + i + '" class="select_player_rank"></div>');
+        divRank.append('<div id="select_player_rank_text' + i + '" class="select_player_rank_text font textC"></div>');
+        divPanel.append(divRank);
+        var divOverlay = $('<div id="select_player_overlay' + i + '" class="select_player_overlay"></div>');
+        divOverlay.append('<div id="select_player_topbar' + i + '" class="select_player_topbar"></div>');
+        divOverlay.append('<div id="select_player_bottombar' + i + '" class="select_player_bottombar"></div>');
+        var divBox = $('<div id="select_player_box' + i + '" class="select_player_box"></div>');
+        divBox.append('<div id="select_player_box_text' + i + '" class="select_player_box_text font textC"></div>');
+        divOverlay.append(divBox);
+        divPanel.append(divOverlay);
+        $("#player_info").append(divPanel);
+    }
+    // Title screen: player names
+    $("#player_list_panels").empty();
+    for (var i = 0; i < 5; i++) {
+        var divPanel = $('<div id="player_list_panel' + i + '" class="player_list_panel"></div>');
+        divPanel.append('<div id="player_list_text' + i + '" class="player_list_text font textC"></div>');
+        divPanel.css('top', (16 + 14 * i) + "%");
+        $("#player_list_panels").append(divPanel);
+    }
+    // Game screen: player UI
+    $("#ui_scores").empty();
+    for (var i = 0; i < 4; i++) {
+        var divUI = $('<div id="ui_score' + i + '" class="ui_score noselect"></div>');
+        divUI.append('<div id="ui_score_name' + i + '" class="ui_score_name font color_p' + i + '"><div class="ui_score_name_text textC"></div></div>');
+        divUI.append('<div id="ui_score_roundScore' + i + '" class="ui_score_roundScore font color_p' + i + '"><div class="ui_score_roundScore_text textC"></div></div>');
+        divUI.append('<div id="ui_score_totalScore' + i + '" class="ui_score_totalScore font color_p' + i + '"><div class="ui_score_totalScore_text textC"></div></div>');
+        var divHigh = $('<div id="ui_score_newHighScore' + i + '" class="ui_score_newHighScore color_p' + i + '"></div>');
+        divHigh.append('<div id="ui_score_darkBox' + i + '" class="ui_score_darkBox ui_score_darkBox_fade_anim"></div>');
+        divHigh.append('<div id="ui_score_newHighScore_title' + i + '" class="ui_score_newHighScore_title font fs-36">New Personal Best!</div>');
+        divHigh.append('<div id="ui_score_newHighScore_oldScore' + i + '" class="ui_score_newHighScore_oldScore font fs-90"></div>');
+        divHigh.append('<div id="ui_score_newHighScore_newScore' + i + '" class="ui_score_newHighScore_newScore font fs-90"></div>');
+        divHigh.append('<div id="ui_score_newHighScore_oldRank' + i + '" class="ui_score_newHighScore_oldRank font fs-40"></div>');
+        divHigh.append('<div id="ui_score_newHighScore_newRank' + i + '" class="ui_score_newHighScore_newRank font fs-40"></div>');
+        divHigh.append('<div id="ui_score_newHighScore_triangle' + i + '" class="ui_score_newHighScore_triangle font fs-40">▶</div>');
+        divUI.append(divHigh);
+        $("#ui_scores").append(divUI);
+    }
+    // Game screen: top bar
+    $("#ui_round_bar_top").empty();
+    for (var i = 0; i < 10; i++) {
+        var divSection = $('<div id="ui_round_bar_section' + i + '" class="ui_round_bar_section">');
+        divSection.append('<div class="ui_round_bar_box"><div id="ui_round_bar_circle' + i + '" class="ui_round_bar_circle"></div></div>');
+        $("#ui_round_bar_top").append(divSection);
+    }
+    // Game screen: dice boxes
+    $("#gamearea_dice_boxes").empty();
+    for (var i = 0; i < 8; i++) {
+        var divBox = $('<div id="gamearea_dice_box' + i + '" class="gamearea_dice_box">');
+        divBox.append('<div id="gamearea_dice_box_die' + i + '" class="gamearea_dice_box_die"></div>');
+        divBox.append('<div id="gamearea_dice_box_freeze' + i + '" class="gamearea_dice_box_freeze font">❄</div>');
+        $("#gamearea_dice_boxes").append(divBox);
+    }
+    // Game screen: event records
+    $("#gamerecords_boxes").empty();
+    for (var i = 0; i < 3; i++) {
+        var divBox = $('<div id="gamerecords_box' + i + '" class="gamerecords_box"></div>');
+        divBox.append('<div id="gamerecords_box_name' + i + '" class="gamerecords_box_name font textC">-----</div>');
+        divBox.append('<div id="gamerecords_box_score' + i + '" class="gamerecords_box_score font textC">--</div>');
+        divBox.append('<div id="gamerecords_box_rank' + i + '" class="gamerecords_box_rank font textC">-----</div>');
+        $("#gamerecords_boxes").append(divBox);
+    }
+    $("#gamerecords_pbs").empty();
+    for (var i = 0; i < 4; i++) {
+        var divPb = $('<div id="gamerecords_pb' + i + '" class="gamerecords_pb color_l' + i + '"></div>');
+        divPb.css("left", (2.5 + 25 * i) + "%");
+        divPb.append('<div id="gamerecords_pb_name' + i + '" class="gamerecords_pb_name font">-----</div>');
+        divPb.append('<div id="gamerecords_pb_score' + i + '" class="gamerecords_pb_score font">--</div>');
+        divPb.append('<div id="gamerecords_pb_rank' + i + '" class="gamerecords_pb_rank font">-----</div>');
+        $("#gamerecords_pbs").append(divPb);
+    }
+    // End screen: score panels
+    $("#results_panels").empty();
+    for (var i = 0; i < 4; i++) {
+        $("#results_panels").append('<div id="results_panel' + i + '" class="results_panel panel' + i + ' color_p' + i + '"></div>');
+        var divPanel = $('<div id="results_panel_text' + i + '" class="results_panel_text panel' + i + '">');
+        divPanel.append('<div id="results_panel_title' + i + '" class="results_panel_title font fs-60"></div>');
+        divPanel.append('<div id="results_panel_name' + i + '" class="results_panel_name font fs-50"></div>');
+        divPanel.append('<div id="results_panel_score' + i + '" class="results_panel_score font fs-150"></div>');
+        $("#results_panels").append(divPanel);
+    }
+}
+
+function initRecords() {
+    // Records event sections
+    for (var i = 0; i < 10; i++) {
+        $("#records_events").append("<div id='records_event" + i + "' class='records_event'></div>");
+        $("#records_event" + i).append("<div id='records_event_title" + i + "' class='records_event_title font fs-30'></div>");
+        $("#records_event" + i).append("<div id='records_event_line" + i + "' class='records_event_line'></div>");
+        for (var j = 1; j <= 3; j++) {
+            $("#records_event" + i).append("<div id='records_event_score" + j + "_" + i + "' class='records_event_score" + j + " font fs-45'></div>");
+            $("#records_event" + i).append("<div id='records_event_name" + j + "_" + i + "' class='records_event_name" + j + " font fs-30'></div>");
+        }
+        $("#records_event" + i).css({
+            'left': ((i % 5) * 20) + "%",
+            'top': (Math.floor(i / 5) * 50) + "%",
+            'background-color': (i % 2 == 0 ? "#000000" : "#222222")
+        });
+    }
+    // Lower sections
+    var ids = ["runs", "stars", "ratings"];
+    var titles = ["Best Runs", "Most Stars", "Highest Ratings"];
+    for (var i = 0; i < 3; i++) {
+        // Main div
+        $("#records").append("<div id='records_" + ids[i] + "' class='records_section'></div>");
+        // Title and line
+        $("#records_" + ids[i]).append("<div id='records_title" + i + "' class='records_title font fs-42'></div>");
+        $("#records_title" + i).text(titles[i]);
+        $("#records_" + ids[i]).append("<div id='records_line" + i + "' class='records_line'></div>");
+        for (var j = 1; j <= 5; j++) {
+            $("#records_" + ids[i]).append("<div id='records_section_score" + j + "_" + i + "' class='records_section_score records_section_score" + j + " font fs-54'></div>");
+            $("#records_" + ids[i]).append("<div id='records_section_name" + j + "_" + i + "' class='records_section_name records_section_name" + j + " font fs-36'></div>");
+        }
+    }
+    for (var i = 1; i <= 5; i++) {
+        $(".records_section_score" + i).css("top", (5 + 15.5 * i) + "%");
+        $(".records_section_name" + i).css("top", (7.5 + 15.5 * i) + "%");
+    }
+    // Individual records TODO
+    // Event listeners for buttons
+    $("#playerstats_button_scores").click(function () {
+        showPlayerStatsScreen(0);
+    });
+    $("#playerstats_button_stars").click(function () {
+        showPlayerStatsScreen(1);
+    });
+    $("#playerstats_button_stats").click(function () {
+        showPlayerStatsScreen(2);
+    });
+    // Records event sections
+    for (var i = 0; i < 10; i++) {
+        $("#playerstats_scores_events").append("<div id='playerstats_scores_event" + i + "' class='playerstats_scores_event'></div>");
+        $("#playerstats_scores_event" + i).append("<div id='playerstats_scores_event_title" + i + "' class='playerstats_scores_event_title font fs-30'></div>");
+        $("#playerstats_scores_event" + i).append("<div id='playerstats_scores_event_line" + i + "' class='playerstats_scores_event_line'></div>");
+        $("#playerstats_scores_event" + i).append("<div id='playerstats_scores_event_score" + i + "' class='playerstats_scores_event_score font fs-100'></div>");
+        $("#playerstats_scores_event" + i).append("<div id='playerstats_scores_event_rank" + i + "' class='playerstats_scores_event_rank font fs-45'></div>");
+        $("#playerstats_scores_event" + i).css({
+            'left': ((i % 5) * 20) + "%",
+            'top': (Math.floor(i / 5) * 50) + "%",
+            'background-color': (i % 2 == 0 ? "#000000" : "#222222")
+        });
+    }
+    // Challenge boxes
+    for (var i = 0; i < 90; i++) {
+        $("#playerstats_stars_challenges").append("<div id='playerstats_stars_challenge" + i + "' class='playerstats_stars_challenge'></div>");
+        $("#playerstats_stars_challenge" + i).css({
+            'left': ((i % 15) * 6.66667) + "%",
+            'top': (Math.floor(i / 15) * 16.66667) + "%",
+            'background-color': (i % 2 == 0 ? "#000000" : "#222222")
+        });
     }
 }
 
@@ -233,7 +386,10 @@ function initMenu() {
         'opacity': 0
     });
     // First, load profile data from cookies
-    loadGame();
+    loadProfileJSON();
+    // Prepare records
+    prepRecords();
+    prepPlayerStats(profiles[0]);
     playerProfiles = [null, null, null, null];
     panelColors = [-1, -1, -1, -1];
     menuMode = ["", 0];
@@ -392,26 +548,17 @@ function Player(id_, name_, isAI_, playerColor_, profile_) {
     this.profile = profile_;
 }
 
-function Profile(name_) {
-    this.name = name_;
-    this.bestScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.eventRanks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.highScore = 0;
-    this.highScoreEventScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.getRank = function () {
+function Profile(props) {
+    this.name = props.name;
+    this.bestScores = props.bestScores || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.eventRanks = props.eventRanks || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.highScore = props.highScore || 0;
+    this.highScoreEventScores = props.highScoreEventScores || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.getStars = function () {
         // Get rank of each individual event
         this.eventRanks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         for (var i = 0; i < 10; i++) {
-            if (i == 0) goalScores = [26, 29, 31, 33, 35, 36, 37];
-            if (i == 1) goalScores = [8, 14, 20, 25, 27, 28, 29];
-            if (i == 2) goalScores = [30, 34, 37, 39, 41, 42, 43];
-            if (i == 3) goalScores = [16, 18, 20, 22, 24, 26, 28];
-            if (i == 4) goalScores = [27, 30, 32, 34, 35, 36, 37];
-            if (i == 5) goalScores = [22, 24, 25, 26, 27, 28, 29];
-            if (i == 6) goalScores = [16, 18, 20, 22, 24, 26, 28];
-            if (i == 7) goalScores = [24, 28, 32, 36, 38, 40, 42];
-            if (i == 8) goalScores = [16, 18, 20, 22, 24, 26, 28];
-            if (i == 9) goalScores = [27, 31, 33, 35, 36, 37, 38];
+            var goalScores = eventRankData[i];
             this.eventRanks[i] = getEventRank(this.bestScores[i], goalScores);
         }
         // Determine star count
@@ -421,18 +568,19 @@ function Profile(name_) {
                 stars += (this.eventRanks[i] - 4);
             }
         }
-        var highScoreGoalScores = [100, 130, 160, 185, 210, 230, 250, 270, 285, 300];
-        var highScoreRank = getEventRank(this.highScore, highScoreGoalScores);
-        stars += highScoreRank;
-        var rank = Math.floor(stars / 5);
-        var letterRanks = ["C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+"];
-        return letterRanks[rank];
+        return stars;
     }
-    this.getTotalScore = function () {
+    this.getEventTotal = function () {
         var total = 0;
         for (var i = 0; i < 10; i++)
             total += this.bestScores[i];
+        return total;
+    }
+    this.getTotalScore = function () {
+        var total = 0;
+        total += this.getEventTotal();
         total += this.highScore;
+        total += this.getStars();
         return total;
     }
     this.exportString = function () {
@@ -454,41 +602,20 @@ function Profile(name_) {
     }
 }
 
-function loadGame() {
-    var dataString = getCookie("gamedata");
-    console.log(dataString);
-    if (dataString.length > 0) {
-        var profileData = dataString.split("_");
-        profiles = [];
-        for (var i = 0; i < profileData.length; i++) {
-            var data = profileData[i].split("|");
-            profiles.push(new Profile(data[0]));
-            var scores = data[1].split(",");
-            profiles[i].bestScores = [];
-            for (var j = 0; j < scores.length; j++) {
-                scores[j] = Number(scores[j]);
-                profiles[i].bestScores.push(scores[j]);
-            }
-            profiles[i].highScore = Number(data[2]);
-            var bestRunScores = data[3].split(",");
-            profiles[i].highScoreEventScores = [];
-            for (var j = 0; j < bestRunScores.length; j++) {
-                bestRunScores[j] = Number(bestRunScores[j]);
-                profiles[i].highScoreEventScores.push(bestRunScores[j]);
-                console.log(bestRunScores[j]);
-            }
+function loadProfileJSON() {
+    var profileJSON = localStorage.getItem("decathlon");
+    if (profileJSON) {
+        var profileList = JSON.parse(profileJSON);
+        for (var i = 0; i < profileList.length; i++) {
+            profiles.push(new Profile(profileList[i]));
         }
+        console.log(profileList);
     }
 }
 
 function saveGame() {
-    var dataString = "";
-    for (var i = 0; i < profiles.length; i++) {
-        dataString += profiles[i].exportString();
-        if (i < profiles.length - 1)
-            dataString += "_";
-    }
-    setCookie("gamedata", dataString, 36500);
+    var jsonProfiles = JSON.stringify(profiles);
+    localStorage.setItem("decathlon", jsonProfiles);
 }
 
 function addNewProfile() {
@@ -499,7 +626,9 @@ function addNewProfile() {
     }
     // Else, make a new profile with the name
     else {
-        profiles.push(new Profile(name));
+        profiles.push(new Profile({
+            name: name
+        }));
         hideNewProfile();
         updateUI();
         // Save the game to remember the new profile!
@@ -614,15 +743,12 @@ function prepGame() {
     soloGame = false;
     buttonStatus = false;
     roundNumber = 0;
+    setGameBodyScreen(1, false);
     exitFreeze();
     // TODO: remove this
     roundNumber = 0;
     events = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     players = [];
-    //var sampleNames = ["David", "Sophie", "Luke", "Flora"];
-    /*for (var i = 0; i < playerCount; i++) {
-        players.push(new Player(i, sampleNames[i], false, i + 4));
-    }*/
     for (var i = 0; i < 4; i++) {
         if (playerProfiles[i] != null) {
             players.push(new Player(i, playerProfiles[i].name, false, panelColors[i], playerProfiles[i]));
@@ -756,6 +882,52 @@ function startRound() {
         turn = 0;
         freezeButtons = false;
     }
+    // Set event high scores
+    // Top 3 of all time
+    var bestScores = highScores[eventID];
+    console.log(bestScores);
+    for (var i = 0; i < 3; i++) {
+        if (i < bestScores.length) {
+            var name = bestScores[i][0];
+            var score = bestScores[i][1];
+            var rank = getEventRank(score, eventRankData[eventID]);
+            $("#gamerecords_box_name" + i).text(name);
+            $("#gamerecords_box_score" + i).text(score);
+            $("#gamerecords_box_rank" + i).text(toOrdinal(i + 1) + " / " + rankLetters[rank]);
+        } else {
+            $("#gamerecords_box_name" + i).text("-----");
+            $("#gamerecords_box_score" + i).text("--");
+            $("#gamerecords_box_rank" + i).text("-----");
+        }
+    }
+    // Personal bests for players
+    var numPlayers = 1;
+    if (!soloGame) {
+        numPlayers = players.length;
+    }
+    for (var i = 0; i < 4; i++) {
+        if (i < players.length && players[i].profile) {
+            var name = players[i].profile.name;
+            var score = players[i].profile.bestScores[eventID];
+            var place = getHighScorePlace(score, bestScores);
+            var rank = getEventRank(score, eventRankData[eventID]);
+            $("#gamerecords_pb_name" + i).text(name);
+            $("#gamerecords_pb_score" + i).text(score);
+            $("#gamerecords_pb_rank" + i).text(toOrdinal(place) + " / " + rankLetters[rank]);
+            $("#gamerecords_pb" + i).css({
+                "opacity": 1,
+                "left": (2.5 + 25 * i + 12.5 * (4 - numPlayers)) + "%"
+            });
+        } else {
+            $("#gamerecords_pb_name" + i).text("-----");
+            $("#gamerecords_pb_score" + i).text("--");
+            $("#gamerecords_pb_rank" + i).text("-----");
+            $("#gamerecords_pb" + i).css("opacity", 0);
+            console.log("opacity 0");
+        }
+    }
+    // Set event rules
+    $("#gamehelp_body_text").html(eventRules[eventID]);
     prepTurn();
     updateUI();
 }
@@ -773,7 +945,7 @@ function prepTurn() {
         }, 1500);
     } else {
         // Skip the turn display
-        setTimeout(function() {
+        setTimeout(function () {
             startTurn();
         }, 100);
     }
@@ -1053,16 +1225,16 @@ function updateUI() {
         // Score UI first
         for (var i = 0; i < players.length; i++) {
             if (i == turn) {
-                $("#ui_score_name" + i).text("• " + players[i].name + " •");
+                $("#ui_score_name" + i + ">.ui_score_name_text").text("• " + players[i].name + " •");
             } else {
-                $("#ui_score_name" + i).text(players[i].name);
+                $("#ui_score_name" + i + ">.ui_score_name_text").text(players[i].name);
 
             }
-            $("#ui_score_totalScore" + i).text(players[i].totalScore);
+            $("#ui_score_totalScore" + i + ">.ui_score_totalScore_text").text(players[i].totalScore);
             if (players[i].roundScore >= 0) {
-                $("#ui_score_roundScore" + i).text("+" + players[i].roundScore);
+                $("#ui_score_roundScore" + i + ">.ui_score_roundScore_text").text("+" + players[i].roundScore);
             } else {
-                $("#ui_score_roundScore" + i).text(players[i].roundScore);
+                $("#ui_score_roundScore" + i + ">.ui_score_roundScore_text").text(players[i].roundScore);
             }
             // Showing round score?
             if (!players[i].showRoundScore && players[i].roundScore != 0) {
@@ -1952,93 +2124,128 @@ function exitResults() {
     });
 }
 
-function resizeWindow() {
-    // Get window width and height
-    var w = $(window).width();
-    var h = $(window).height();
-    // If the aspect ratio is greater than or equal to 4:3, fix height and set width based on height
-    if ((w / h) >= 4 / 3) {
-        stageHeight = h;
-        stageWidth = (4 / 3) * h;
-        stageLeft = (w - stageWidth) / 2;
-        stageTop = 0;
-        coverTop = 0;
-        coverBottom = 0;
-        coverLeft = stageLeft;
-        coverRight = stageLeft;
+function prepRecords() {
+    // Sort high scores
+    sortHighScores();
+    for (var i = 0; i < 10; i++) {
+        // Set event title
+        $("#records_event_title" + i).text(eventNames[i]);
+        // Set high score text
+        for (var j = 0; j < Math.min(3, highScores[i].length); j++) {
+            $("#records_event_name" + (j + 1) + "_" + i).text(highScores[i][j][0]);
+            $("#records_event_score" + (j + 1) + "_" + i).text(highScores[i][j][1]);
+        }
     }
-    // If the aspect ratio is less than 4:3, fix width and set height based on width
-    else {
-        stageWidth = w;
-        stageHeight = (3 / 4) * w;
-        stageTop = (h - stageHeight) / 2;
-        stageLeft = 0;
-        coverTop = stageTop;
-        coverBottom = stageTop;
-        coverLeft = 0;
-        coverRight = 0;
+    // Lower sections
+    for (var i = 0; i < Math.min(5, bestRuns.length); i++) {
+        $("#records_section_name" + (i + 1) + "_0").text(bestRuns[i][0]);
+        $("#records_section_score" + (i + 1) + "_0").text(bestRuns[i][1]);
     }
+    for (var i = 0; i < Math.min(5, mostStars.length); i++) {
+        $("#records_section_name" + (i + 1) + "_1").text(mostStars[i][0]);
+        $("#records_section_score" + (i + 1) + "_1").text(mostStars[i][1]);
+    }
+    for (var i = 0; i < Math.min(5, mostStars.length); i++) {
+        $("#records_section_name" + (i + 1) + "_2").text(highestRatings[i][0]);
+        $("#records_section_score" + (i + 1) + "_2").text(highestRatings[i][1]);
+    }
+}
 
-    // Set "screen" object width and height to stageWidth and stageHeight, and center screen
-    $(".screen").css({
-        width: stageWidth + "px",
-        height: stageHeight + "px",
-        left: stageLeft + "px",
-        top: stageTop + "px"
-    });
+function prepPlayerStats(profile) {
+    for (var i = 0; i < 10; i++) {
+        // Set event title
+        $("#playerstats_scores_event_title" + i).text(eventNames[i]);
+        $("#playerstats_scores_event_score" + i).text(profile.bestScores[i]);
+        $("#playerstats_scores_event_rank" + i).text(rankLetters[profile.eventRanks[i]]);
+    }
+    $("#playerstats_scores_scoresum_score").text(profile.getEventTotal());
+    $("#playerstats_scores_bestrun_score").text(profile.highScore);
+    $("#playerstats_scores_starcount_score").text(profile.getStars());
+    $("#playerstats_scores_rating_score").text(profile.getTotalScore());
+}
 
-    // Set "cover" object properties based on properties set above
-    $("#coverTop").css({
-        'width': w,
-        'height': coverTop,
-        'top': 0,
-        'left': 0,
-    });
-    $("#coverBottom").css({
-        'width': w,
-        'height': coverBottom,
-        'top': h - coverBottom,
-        'left': 0,
-    });
-    $("#coverLeft").css({
-        'width': coverLeft,
-        'height': h,
-        'top': 0,
-        'left': 0,
-    });
-    $("#coverRight").css({
-        'width': coverRight,
-        'height': h,
-        'top': 0,
-        'left': w - coverRight,
-    });
+function showPlayerStatsScreen(n) {
+    $("#playerstats_box").animate({
+        'left': (n * -100) + "%"
+    }, 250);
+}
 
-    // Resize corner border radii based on stage height
-    var cornerSize = .025 * stageHeight;
-    $(".rounded").css({
-        '-webkit-border-radius': cornerSize + "px",
-        '-moz-border-radius': cornerSize + "px",
-        'border-radius': cornerSize + "px"
-    });
-
-    // Resize text based on stage height
-    // To give a class a certain font size, assign it the class "fs-X" where X is an integer between 1 and 1000. 1000 is the height of the screen.
-
-    // New font resize loop
-    for (var i = 1; i <= 1000; i++) {
-        var s = stageHeight * (i / 1000);
-        var c = ".fs-" + i;
-        $(c).css({
-            'font-size': s + "px"
+function setGameBodyScreen(n, doAnimation) {
+    gameBodyScreen = n;
+    if (doAnimation) {
+        $("#gamebody").animate({
+            'left': ((n - 1) * -100) + "%"
+        }, 250);
+    } else {
+        $("#gamebody").css({
+            'left': ((n - 1) * -100) + "%"
         });
     }
+}
 
-    // Resize the stripes
-    var stripeSize = stageHeight * .05;
-    var str = stripeSize + "% " + stripeSize + "%"
-    $(".stripes").css({
-        'background-size': stripeSize
+function sortHighScores() {
+    // Clear high score array
+    highScores = [];
+    for (var i = 0; i < 10; i++) {
+        var eventHighScores = [];
+        // Get all players' high scores
+        for (var j = 0; j < profiles.length; j++) {
+            var scorePair = [];
+            scorePair[0] = profiles[j].name;
+            scorePair[1] = profiles[j].bestScores[i];
+            eventHighScores.push(scorePair);
+        }
+        // Sort them
+        eventHighScores.sort(function (a, b) {
+            return b[1] - a[1];
+        });
+        // Add to high score array
+        highScores.push(eventHighScores);
+    }
+    // Best runs
+    bestRuns = [];
+    // Get all players' high scores
+    for (var i = 0; i < profiles.length; i++) {
+        var scorePair = [];
+        scorePair[0] = profiles[i].name;
+        scorePair[1] = profiles[i].highScore;
+        bestRuns.push(scorePair);
+    }
+    // Sort them
+    bestRuns.sort(function (a, b) {
+        return b[1] - a[1];
     });
+    // Most stars
+    mostStars = [];
+    // Get all players' high scores
+    for (var i = 0; i < profiles.length; i++) {
+        var scorePair = [];
+        scorePair[0] = profiles[i].name;
+        scorePair[1] = profiles[i].getStars();
+        mostStars.push(scorePair);
+    }
+    // Sort them
+    mostStars.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+    // Ratings
+    highestRatings = [];
+    // Get all players' high scores
+    for (var i = 0; i < profiles.length; i++) {
+        var scorePair = [];
+        scorePair[0] = profiles[i].name;
+        scorePair[1] = profiles[i].getTotalScore();
+        highestRatings.push(scorePair);
+    }
+    // Sort them
+    highestRatings.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+    // Add to high score array
+    console.log(highScores);
+    console.log(bestRuns);
+    console.log(mostStars);
+    console.log(highestRatings);
 }
 
 function betterParseInt(s) {
@@ -2083,22 +2290,24 @@ function getEventRank(score, goalScores) {
     return rank;
 }
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+function getHighScorePlace(score, highScores) {
+    for (var i = 0; i < highScores.length; i++) {
+        if (score == highScores[i][1]) {
+            return i + 1;
+        }
+    }
 }
 
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+function toOrdinal(n) {
+    if (n % 10 == 1 && n % 100 != 11) {
+        return n + "st";
+    } else if (n % 10 == 2 && n % 100 != 12) {
+        return n + "nd";
+    } else if (n % 10 == 3 && n % 100 != 13) {
+        return n + "rd";
+    } else {
+        return n + "th";
     }
-    return "";
 }
 
 function maxElement(list) {
@@ -2109,4 +2318,9 @@ function maxElement(list) {
         }
     }
     return max;
+}
+
+// Create list of achievements
+function makeAchievementList() {
+
 }

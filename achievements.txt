@@ -1,0 +1,120 @@
+Achievement List
+----------------
+
+(Event Ranks x 7)
+Earn a rank of D or better in all events.
+Earn a rank of C or better in all events.
+Earn a rank of B or better in all events.
+Earn a rank of A or better in all events.
+Earn a rank of ★ or better in all events.
+Earn a rank of ★★ or better in all events.
+Earn a rank of ★★★ in all events.
+
+(Best Run Score x 10) DONE
+Complete a game with a score of 120 or better.
+Complete a game with a score of 150 or better.
+Complete a game with a score of 175 or better.
+Complete a game with a score of 200 or better.
+Complete a game with a score of 220 or better.
+Complete a game with a score of 235 or better.
+Complete a game with a score of 250 or better.
+Complete a game with a score of 260 or better.
+Complete a game with a score of 270 or better.
+Complete a game with a score of 280 or better.
+
+(Single Event Achievements x 4)
+Earn a rank of ★ or better in any event.
+Earn a rank of ★★ or better in any event.
+Earn a rank of ★★★ in any event.
+Earn a perfect score in any event.
+
+(Gameplay Achievements x 5) DONE
+Play a game.
+Play 3 games.
+Play 5 games.
+Play 10 games.
+Play 20 games.
+
+(Player Count Achievements x 4) DONE
+Play a game in solo mode.
+Play a game with two players.
+Play a game with three players.
+Play a game with four players.
+
+(Victory Achievements x 5) DONE
+Defeat a player.
+Defeat 3 players.
+Defeat 5 players.
+Defeat 10 players.
+Defeat 20 players.
+
+(Player Count Victory Achievements x 3)
+Win a two-player game.
+Win a three-player game.
+Win a four-player game.
+
+(Event-Specific Feats x 10) DONE
+In 100 Meters, complete the event without accepting any rolls totaling 13 or less.
+In Long Jump, freeze all of the dice in a single attempt without exceeding a total of 7.
+In Shot Put, roll 8 dice in a single attempt without rolling a 1.
+In High Jump, skip 5 or more jumps in a row and then clear a jump.
+In 400 Meters, complete the event without accepting any rolls totaling six or less.
+In 110 Meter Hurdles, accept a roll at least 13 points higher than your lowest roll in that event.
+In Discus, freeze all of the dice in one attempt, using at most one reroll.
+In Pole Vault, clear a jump by rolling at least double the goal height.
+In Javelin, freeze all of the dice in one attempt, using at most one reroll.
+In 1500 Meters, complete the event without accepting any ones, twos, or sixes.
+
+(Die Roll Achievements x 10)
+Roll 100 dice.
+Roll 250 dice.
+Roll 500 dice.
+Roll 1000 dice.
+Roll 2500 dice.
+Roll 5000 dice.
+Roll 10000 dice.
+Roll 100 dice in one game.
+Roll 150 dice in one game.
+Roll 200 dice in one game.
+
+(Never Lucky Achievements x 6)
+In 100 Meters, 400 Meters, or 1500 Meters, earn a negative score.
+In 110 Meter Hurdles, finish with a score at least 10 points lower than your highest roll in the event.
+In High Jump or Pole Vault, fail the lowest height.
+In Shot Put, fail an attempt on the first roll.
+In Long Jump, forfeit an attempt after freezing dice totaling 4 or less.
+In Discus or Javelin, forfeit an attempt after freezing 2 dice or fewer.
+
+(Misc. Achievements x 4) DONE
+Roll exactly five dice and get a five-of-a-kind.
+Roll exactly five dice and get a full house.
+Roll exactly five dice and get a straight.
+Roll exactly five dice and get a four-of-a-kind.
+
+(Rating Achievements x 10) DONE
+Achieve a rating of 400.
+Achieve a rating of 450.
+Achieve a rating of 500.
+Achieve a rating of 550.
+Achieve a rating of 600.
+Achieve a rating of 650.
+Achieve a rating of 680.
+Achieve a rating of 700.
+Achieve a rating of 710.
+Achieve a rating of 720.
+
+(Star Achievements x 6)
+Earn 20 stars.
+Earn 40 stars.
+Earn 60 stars.
+Earn 80 stars.
+Earn 100 stars.
+Earn 119 stars.
+
+(Number Affinity Achievements x 6) DONE
+Reach affinity 10000 with the number 1.
+Reach affinity 10000 with the number 2.
+Reach affinity 10000 with the number 3.
+Reach affinity 10000 with the number 4.
+Reach affinity 10000 with the number 5.
+Reach affinity 10000 with the number 6.
